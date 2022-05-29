@@ -1,0 +1,44 @@
+
+ubuntu@ip-172-31-1-141:/fullNode/erigon$ cat /fullNode/about 
+
+sudo apt install git build-essential make cmake
+
+
+wget https://go.dev/dl/go1.18.1.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.18.1.linux-amd64.tar.gz
+
+/etc/profile
+export PATH=$PATH:/usr/local/go/bin
+
+
+go version
+go version go1.18.1 linux/amd64
+
+
+
+
+
+git clone --recurse-submodules -j8 https://github.com/ledgerwatch/erigon.git
+cd erigon/
+make erigon
+
+
+nohup ./build/bin/erigon --datadir="/fullNode/erigon_datadir" &
+
+ubuntu@ip-172-31-1-141:/fullNode/erigon$ make rpcdaemon
+Updating git submodules
+Building rpcdaemon
+Run "/fullNode/erigon/build/bin/rpcdaemon" to launch rpcdaemon.
+
+
+
+./build/bin/erigon --datadir=/fullNode/erigon_datadir --private.api.addr=localhost:9090
+./build/bin/rpcdaemon --datadir=/fullNode/erigon_datadir --txpool.api.addr=localhost:9090 --private.api.addr=localhost:9090 --http.api=eth,erigon,web3,net,debug,trace,txpool
+
+
+
+
+./build/bin/erigon --datadir=/fullNode/erigon_datadir --private.api.addr=localhost:9090
+
+
+

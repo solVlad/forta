@@ -1,0 +1,93 @@
+
+ubuntu@ip-172-31-1-141:/fullNode/erigon$ cat /forta/about 
+
+
+sudo apt install docker.io
+
+docker --version 
+Docker version 20.10.12, build 20.10.12-0ubuntu4
+
+
+etc/docker/daemon.json 
+
+{
+   "default-address-pools": [
+        {
+            "base":"172.17.0.0/12",
+            "size":16
+        },
+        {
+            "base":"192.168.0.0/16",
+            "size":20
+        },
+        {
+            "base":"10.99.0.0/16",
+            "size":24
+        }
+    ]
+}
+
+
+systemctl restart docker
+
+sudo groupadd docker
+sudo usermod -aG docker ubuntu
+
+
+
+reboot
+
+
+
+
+
+sudo curl https://dist.forta.network/pgp.public -o /usr/share/keyrings/forta-keyring.asc -s
+echo 'deb [signed-by=/usr/share/keyrings/forta-keyring.asc] https://dist.forta.network/repositories/apt stable main' | sudo tee -a /etc/apt/sources.list.d/forta.list
+sudo apt-get update
+sudo apt-get install forta
+
+
+
+
+export FORTA_DIR="/forta/config/"
+export FORTA_PASSPHRASE="Redef^ne$$f0rta##N0de1"
+
+
+forta init --passphrase `echo $FORTA_PASSPHRASE`
+
+Scanner address: 0xF7aBA12E9318e9B9f82069015560558E03ad4241
+
+Successfully initialized at /home/ubuntu/.forta
+
+- Please make sure that all of the values in config.yml are set correctly.
+- Please fund your scanner address with some MATIC.
+- Please enable it for the chain ID in your config by doing 'forta register --owner-address <your_owner_wallet_address>'.
+
+
+forta account address
+0xF7aBA12E9318e9B9f82069015560558E03ad4241
+
+
+
+forta init --passphrase `echo $FORTA_PASSPHRASE` --dir /forta/config/
+
+Scanner address: 0x04985863dD4C6E633427c16662973445754AaAb0
+
+Successfully initialized at /forta/config/
+
+- Please make sure that all of the values in config.yml are set correctly.
+- Please fund your scanner address with some MATIC.
+- Please enable it for the chain ID in your config by doing 'forta register --owner-address <your_owner_wallet_address>'.
+ubuntu@ip-172-31-1-141:/forta$ 
+
+
+
+
+/etc/systemd/system/forta.service.d/env.conf
+/usr/lib/systemd/system/forta.service
+============================================
+[Service]
+Environment="FORTA_DIR=/forta/config/"
+Environment="FORTA_PASSPHRASE=Redef^ne$$f0rta##N0de1"
+
+
